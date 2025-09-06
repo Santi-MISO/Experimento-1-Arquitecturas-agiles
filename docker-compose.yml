@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  clientes:
+    build: ./clientes
+    container_name: clientes
+    ports:
+      - "5001:5001"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5001/health"]
+      interval: 2s
+      timeout: 1s
+      retries: 5
+      start_period: 2s
+    volumes:
+      - ./clientes:/app
+
+  monitor:
+    build: ./monitor
+    container_name: monitor
+    ports:
+      - "5002:5002"
+    depends_on:
+      clientes:
+        condition: service_healthy
+    volumes:
+      - ./monitor/report_monitor.txt:/app/report_monitor.txt
