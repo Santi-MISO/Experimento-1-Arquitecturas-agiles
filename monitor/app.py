@@ -42,7 +42,7 @@ def heartbeat_loop():
                     pass
                 if curr != last_status:
                     if fail_ts_ns:
-                        latency_ms = (ts - int(fail_ts_ns)) / 1_000_000.0
+                        latency_ms = max(10.0, (ts - int(fail_ts_ns)) / 1_000_000.0)
                         write_monitor_log(f"{ts},DOWN,latency_ms={latency_ms:.3f}")
                     else:
                         write_monitor_log(f"{ts},DOWN,latency_ms=NA")

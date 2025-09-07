@@ -21,7 +21,6 @@ services:
     ports:
       - "5002:5002"
     depends_on:
-      clientes:
-        condition: service_healthy
+      - clientes
     volumes:
       - ./monitor/report_monitor.txt:/app/report_monitor.txt
